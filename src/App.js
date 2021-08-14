@@ -10,11 +10,15 @@ function SongPlayer({showControls = true, song}) {
     <section>
       <Heading title="Music Player"/>
       <img width="250px" height="250px" src={coverUrl} alt="Song cover"/>
-      <audio key={audioUrl} controls={ showControls } >
+      <audio controls={ showControls } >
 	<source src={ audioUrl } />
       </audio>
     </section>
   )
+}
+
+function SongListItem({song}) {
+  return <li key={song.audioUrl}>{song.title} by {song.artist}</li>;
 }
 
 export default function App() {
@@ -42,8 +46,13 @@ export default function App() {
 
   return (
     <div className="App">
-      <SongPlayer song={ currentSong }
-      />
+      <SongPlayer song={ currentSong } />
+      <section>
+	<Heading title="Songs" />
+	<ul>
+	  {songs.map( song => <SongListItem song={song} key={song.audioUrl}/>)}
+	</ul>
+      </section>
     </div>
   );
 }
