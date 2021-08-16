@@ -1,4 +1,5 @@
 import "./styles.css";
+import React, { useEffect, useState } from "react";
 
 function Heading({title}) {
   return <h1>{title}</h1>;
@@ -10,7 +11,7 @@ function SongPlayer({showControls = true, song}) {
     <section>
       <Heading title="Music Player"/>
       <img width="250px" height="250px" src={coverUrl} alt="Song cover"/>
-      <audio controls={ showControls } >
+      <audio key={song.audioUrl} controls={ showControls } >
 	<source src={ audioUrl } />
       </audio>
     </section>
@@ -18,8 +19,8 @@ function SongPlayer({showControls = true, song}) {
 }
 
 function SongListItem({song, isCurrent, onSelect}) {
-  const backgroundColor = isCurrent ? "darkslategrey" : "none"
-  const style = { backgroundColor }
+  const background= isCurrent ? "darkslategrey" : "none"
+  const style = { background}
   function handleClick() {
     onSelect(song)
   };
@@ -52,10 +53,13 @@ export default function App() {
       artist: "Wowa"
     }
   ];
-  const currentSong = songs[1];
-
-  function handleSelectSong(song) {
-    console.log(song)
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  let currentSong = songs[currentSongIndex];
+  function handleSelectSong(selectedSong) {
+    const audioIndex = songs.findIndex( song => song.audioUrl === selectedSong.audioUrl )
+    if (audioIndex >= 0) {
+      setCurrentSongIndex(audioIndex);
+    }
   }
 
   return (
@@ -64,7 +68,11 @@ export default function App() {
       <section>
 	<Heading title="Songs" />
 	<ul>
-	  {songs.map( song => <SongListItem song={song} key={song.audioUrl} isCurrent={currentSong.audioUrl === song.audioUrl} onSelect={handleSelectSong}/>)}
+	  {
+	    songs.map(
+	      song => <SongListItem song={song} key={song.audioUrl} isCurrent={currentSong.audioUrl === song.audioUrl} onSelect={handleSelectSong}/>
+	    )
+	  }
 	</ul>
       </section>
     </div>
