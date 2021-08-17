@@ -1,10 +1,27 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Heading } from "./Heading"
 import "./SongPlayer.css";
 
 export function SongPlayer({showControls = false, song}) {
+  console.log("Rendered SongPlayer");
   const audioRef = useRef();
   const { audioUrl, coverUrl } = song;
+
+  useEffect(() => {
+    let timer = null; 
+    timer = setInterval(() => tick(), 1000)
+  }, []);
+
+  function tick() {
+    console.log((audioRef.current.currentTime / audioRef.current.duration) * 100);
+  }
+
+  function startTimer() {
+    return(
+      setInterval(() => tick(), 1000)
+    )  
+  }
+
   return (
     <section className="SongPlayer" >
       <Heading title="Music Player"/>

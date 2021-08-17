@@ -8,6 +8,7 @@ import "./App.css";
 export function App() {
   const URL = "https://examples.devmastery.pl/songs-api/songs";
   const [songs, setSongs] = useState([]);
+
   useEffect(() => {
     fetch(URL).then((response) => {
       if (response.ok) {
