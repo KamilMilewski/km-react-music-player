@@ -37,6 +37,12 @@ function SongListItem({song, isCurrent, onSelect}) {
   );
 }
 
+function Songs({children}) {
+  return (
+    <section className="Songs">{ children }</section>
+  )
+}
+
 export default function App() {
   const URL = "https://examples.devmastery.pl/songs-api/songs";
   const [songs, setSongs] = useState([]);
@@ -61,16 +67,16 @@ export default function App() {
       { songs.length === 0 ? "Loading..." : (
 	<>
 	  <SongPlayer song={ currentSong } />
-	  <section className="Songs">
+	  <Songs>
 	    <Heading title="Songs" />
 	    <ul>
 	      {
 		songs.map(
-		  song => <SongListItem song={song} key={song.audioUrl} isCurrent={currentSong.audioUrl === song.audioUrl} onSelect={handleSelectSong}/>
-		)
-	      }
+		song => <SongListItem song={song} key={song.audioUrl} isCurrent={currentSong.audioUrl === song.audioUrl} onSelect={handleSelectSong}/>
+	      )
+	    }
 	    </ul>
-	  </section>
+	  </Songs>
       </>
       ) }
     </div>
