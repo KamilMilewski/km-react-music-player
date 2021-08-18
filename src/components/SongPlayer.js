@@ -1,25 +1,37 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Heading } from "./Heading"
+import { SongProgress } from "./SongProgress"
 import "./SongPlayer.css";
 
 export function SongPlayer({showControls = false, song}) {
-  console.log("Rendered SongPlayer");
   const audioRef = useRef();
   const { audioUrl, coverUrl } = song;
+  const [songProgress, setSongProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
-    let timer = null; 
-    timer = setInterval(() => tick(), 1000)
+    const timer = setInterval(tick, 1000);
+
+    return function cleanup() {
+      console.log("cleared timer");
+      clearInterval(timer);
+    }
   }, []);
 
   function tick() {
-    console.log((audioRef.current.currentTime / audioRef.current.duration) * 100);
+    setSongProgress(
+      (audioRef.current.currentTime / audioRef.current.duration) * 100.0
+    );
   }
 
-  function startTimer() {
-    return(
-      setInterval(() => tick(), 1000)
-    )  
+  function playMusic() {
+    audioRef.current.play();
+    setIsPlaying(true);
+  }
+
+  function pauseMusic() {
+    audioRef.current.pause();
+    setIsPlaying(false);
   }
 
   return (
@@ -29,9 +41,10 @@ export function SongPlayer({showControls = false, song}) {
       <audio ref={audioRef} key={song.audioUrl} controls={ showControls } >
 	<source src={ audioUrl } />
       </audio>
+      <SongProgress progress={songProgress}/>
       <div>
-	<button onClick={() => audioRef.current.play()}>Play</button>
-	<button onClick={() => audioRef.current.pause()}>Pause</button>
+	<button onClick={playMusic}>Play</button>
+	<button onClick={pauseMusic}>Pause</button>
       </div>
     </section>
   )

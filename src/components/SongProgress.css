@@ -1,0 +1,12 @@
+#ProgressBarContainer {
+  border: 1px powderblue solid;
+  width: 240px;
+  padding: 5px;
+  margin-bottom: 5px;
+  height: 25px;
+  border-radius: 5px;
+}
+#ProgressBar {
+  background-color: powderblue;
+  height: 100%;
+}
