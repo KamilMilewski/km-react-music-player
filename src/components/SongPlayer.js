@@ -24,14 +24,13 @@ export function SongPlayer({showControls = false, song}) {
     );
   }
 
-  function playMusic() {
-    audioRef.current.play();
-    setIsPlaying(true);
-  }
-
-  function pauseMusic() {
-    audioRef.current.pause();
-    setIsPlaying(false);
+  function togglePlay() {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying((oldValue) => !oldValue);
   }
 
   return (
@@ -43,8 +42,7 @@ export function SongPlayer({showControls = false, song}) {
       </audio>
       <SongProgress progress={songProgress}/>
       <div>
-	<button onClick={playMusic}>Play</button>
-	<button onClick={pauseMusic}>Pause</button>
+	<button onClick={togglePlay}>{ isPlaying ? "Pause" : "Play" }</button>
       </div>
     </section>
   )
