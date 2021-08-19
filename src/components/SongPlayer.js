@@ -10,7 +10,7 @@ export function SongPlayer({showControls = false, song}) {
   const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
-    const timer = setInterval(tick, 1000);
+    const timer = setInterval(tick, 200);
 
     return function cleanup() {
       console.log("cleared timer");
@@ -40,7 +40,7 @@ export function SongPlayer({showControls = false, song}) {
       <audio ref={audioRef} key={song.audioUrl} controls={ showControls } >
 	<source src={ audioUrl } />
       </audio>
-      <SongProgress progress={songProgress}/>
+      <SongProgress progress={songProgress} audioRef={audioRef}/>
       <div>
 	<button onClick={togglePlay}>{ isPlaying ? "Pause" : "Play" }</button>
       </div>
